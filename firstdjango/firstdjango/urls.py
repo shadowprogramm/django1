@@ -20,7 +20,7 @@ from . import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('demo/', include('app1.urls'))
+    path('demo/', include('app1.urls', namespace='app1'))
 ]
 
 handler404 = 'firstdjango.views.handler404'
