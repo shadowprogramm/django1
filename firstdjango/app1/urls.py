@@ -6,8 +6,8 @@ app_name='app1'
 
 urlpatterns = [
     path('', views.index, name='index'),
-    path('getuser/<str:name>/<int:id>', views.pathview, name='path view'),
-    path('operation', views.Operations.as_view()),
+    path('getuser/<str:name>/<int:id>', views.pathview, name='path_view'),
+    path('form', views.FormView.as_view(), name='form'),
     re_path(r'^informations/(?P<year>[0-9]{4})$', views.informations),
 ]
 

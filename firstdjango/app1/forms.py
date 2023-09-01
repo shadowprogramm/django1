@@ -1,6 +1,7 @@
 from django import forms
 from django.forms.widgets import NumberInput
 from django.db import models
+from .models import Person
 
 CHOICE_LIST = [
     ('python', 'Python'),
@@ -8,25 +9,18 @@ CHOICE_LIST = [
 ]
 
 class DemoForm(forms.Form):
-    name = forms.CharField(label='Your name', max_length=100, help_text='Your Name')
+    name = forms.CharField(label='Your name', max_length=100, required=False)
     email = forms.EmailField()
     date = forms.DateField(widget=NumberInput(attrs={'type': 'date'}))
     age = forms.IntegerField()
     programming = forms.ChoiceField(choices=CHOICE_LIST, widget=forms.RadioSelect)
-    upload = forms.FileField(upload_to='uploads/')
+    upload = forms.FileField()
 
-
-class DbToForm(models.Model):
-    first_name = models.CharField(max_length=20, default="Christson")
-    tax_code = models.CharField(
-        max_length=20,
-        unique=True
-    )
-    semestre = models.CharField(
-        max_length=20,
-        choices=CHOICE_LIST
-    )
-
+class DbToForm(forms.ModelForm):
+    class Meta:
+        model = Person
+        fields = '__all__'
+        label = {'name': 'Enter your name'}
 """
     MultipleChoiceField
     FileField

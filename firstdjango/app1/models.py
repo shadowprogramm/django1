@@ -29,6 +29,25 @@ class Group(models.Model):
     user = models.ManyToManyField(User) 
 
 
+
+CHOICE_LIST = [
+    ('python', 'Python'),
+    ('java', 'Java')
+]
+
+class Person(models.Model):
+
+    class Meta:
+        permissions = [('can_change_category', 'Can change category')]
+        
+    name = models.CharField(max_length=200)
+    age = models.IntegerField()
+    semestre = models.CharField(
+        max_length=20,
+        choices=CHOICE_LIST
+    )
+
+
 """
     showmigrations
     migrate migrate_name

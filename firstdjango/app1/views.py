@@ -1,11 +1,19 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.views import View
-
+from .forms import DemoForm, DbToForm
 # Create your views here.
+from django.contrib.auth.decorators import login_required, user_passes_test
 
 
+def test(user):
+    return True
+
+
+@user_passes_test(test)
 def index(request):
+    if request.user.is_anonymous():
+        print('Not logged')
     return HttpResponse("Hello, this is the index view")
 
 def pathview(request, name, id):
@@ -15,13 +23,18 @@ def pathview(request, name, id):
     return HttpResponse(f"Post request for {name}")
 
 
-
+@login_required
 def informations(request, year):
     return HttpResponse(f'Information {year}')
 
-class Operations(View):
+class FormView(View):
     def get(self, request):
-        return HttpResponse('Get')
+        form = DbToForm()
+        return render(request, 'form.html', {'form': form})
     
     def post(self, request):
-        return HttpResponse('Post')
+        form = DbToForm(request.POST)
+        if form.is_valid:
+            form.save()
+    
+        return HttpResponse('Form')
